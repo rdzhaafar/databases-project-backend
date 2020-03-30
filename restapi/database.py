@@ -1,5 +1,6 @@
 from restapi import restapi
 import psycopg2
+from os.path import join
 
 
 class Cursor:
@@ -42,3 +43,8 @@ class Cursor:
         self.conn.close()
 
 
+def initialize_database():
+    with open(join('restapi','create_tables.sql'), 'r') as tables_file:
+        tables_sql = tables_file.read()
+    with Cursor(commit=True) as cursor:
+        cursor.execute(tables_sql)
