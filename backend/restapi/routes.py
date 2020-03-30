@@ -1,5 +1,5 @@
-from restapi import restapi
-from restapi.database import Cursor
+from backend.restapi import restapi
+from backend.restapi.database import Cursor
 from flask import request, jsonify, abort
 
 

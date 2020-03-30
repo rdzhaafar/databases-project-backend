@@ -1,4 +1,4 @@
-from restapi import restapi
+from backend.restapi import restapi
 import psycopg2
 from os.path import join
 
