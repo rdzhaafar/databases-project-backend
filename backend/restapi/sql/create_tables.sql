@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS Pricing (
 
 CREATE TABLE IF NOT EXISTS RentalProperty (
   property_id SERIAL PRIMARY KEY,
+  city VARCHAR NOT NULL,
   street VARCHAR NOT NULL,
   street_no INTEGER NOT NULL,
   unit INTEGER NOT NULL,
@@ -60,12 +61,12 @@ CREATE TABLE IF NOT EXISTS RentalProperty (
 
 CREATE TABLE IF NOT EXISTS RentalAgreement (
   agreement_id SERIAL PRIMARY KEY,
-  hostid INTEGER NOT NULL,
+  host_id INTEGER NOT NULL,
   guest_id INTEGER NOT NULL,
   property_id INTEGER NOT NULL,
   signing_date DATE NOT NULL DEFAULT current_date,
   total_amount FLOAT NOT NULL,
-  FOREIGN KEY (hostid) REFERENCES Account (account_id) ON UPDATE CASCADE,
+  FOREIGN KEY (host_id) REFERENCES Account (account_id) ON UPDATE CASCADE,
   FOREIGN KEY (guest_id) REFERENCES Account (account_id) ON UPDATE CASCADE,
   FOREIGN KEY (property_id) REFERENCES RentalProperty (property_id) ON UPDATE CASCADE
 );

@@ -1,6 +1,7 @@
 from backend.restapi import restapi
 import psycopg2
-from os.path import join
+from os import path
+import os
 
 
 class Cursor:
@@ -44,7 +45,9 @@ class Cursor:
 
 
 def initialize_database():
-    with open(join('restapi','create_tables.sql'), 'r') as tables_file:
+    cwd = os.getcwd()
+    fpath = path.join(cwd, "backend", "restapi", "sql", "create_tables.sql")
+    with open(fpath, 'r') as tables_file:
         tables_sql = tables_file.read()
     with Cursor(commit=True) as cursor:
         cursor.execute(tables_sql)
