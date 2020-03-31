@@ -1,6 +1,6 @@
 version: "3"
 services:
-  web:
+  frontend:
     container_name: "database-frontend"
     build: ./frontend
     ports:
@@ -8,3 +8,31 @@ services:
     volumes:
       - ./frontend:/database-frontend
       - ./database-frontend/node_modules
+
+  backend:
+    container_name: "database-backend"
+    build: ./backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/database-backend
+    environment:
+      DATABASE_URL: db-postgres
+
+  db-postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+
+  adminer:
+    image: adminer
+    restart: always
+    depends_on:
+      - db-postgres
+    ports:
+      - "3333:8080"

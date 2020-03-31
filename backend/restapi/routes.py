@@ -226,6 +226,13 @@ account_attrs = [
 ]
 
 
+@restapi.route("/", methods=["GET"])
+def test():
+    try:
+        return "Welcome"
+    except:
+        abort(500)
+
 @restapi.route("/account/new", methods=["POST"])
 def account_new():
     try:
