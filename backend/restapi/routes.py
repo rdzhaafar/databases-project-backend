@@ -3,6 +3,13 @@ from backend.restapi.database import Cursor
 from flask import request, jsonify, abort
 
 
+@restapi.route("/", methods=["GET"])
+def test():
+    try:
+        return "Welcome"
+    except:
+        abort(500)
+
 @restapi.route("/account/new", methods=["POST"])
 def new_account():
     request_data = request.json
