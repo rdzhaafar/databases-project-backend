@@ -1,1 +1,1 @@
-from backend.restapi import app
+from restapi import app

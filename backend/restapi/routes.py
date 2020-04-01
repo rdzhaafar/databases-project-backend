@@ -2,8 +2,8 @@ import functools
 
 from flask import request, jsonify, abort
 
-from backend.restapi import app
-from backend.restapi.database import Cursor
+from restapi import app
+from restapi.database import Cursor
 
 """
 <note>
