@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 
 import os
 
@@ -6,6 +7,7 @@ from restapi.config import Config
 
 # configure Flask
 app = Flask(__name__)
+CORS(app)
 app.config.from_object(Config)
 
 # This needs to be here to avoid circular imports

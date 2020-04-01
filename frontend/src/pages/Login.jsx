@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Row,
   Col,
@@ -8,18 +8,44 @@ import {
   Button,
   Checkbox,
   Card,
-  Divider
+  Divider,
+  Alert
 } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { navigate } from "@reach/router";
+import axios from "axios";
 
+import config from "../config.js";
 import resort from "../assets/resort.jpg";
 
+const { backendAddress } = config;
 const { Title } = Typography;
 
 const Login = () => {
+  const [loading, setLoading] = useState(false);
+  const [badCreds, setBadCreds] = useState(false);
+
   const onFinish = values => {
-    console.log("Received values of form: ", values);
+    setLoading(true);
+    axios
+      .post(backendAddress + "account/login", {
+        username: values.username,
+        account_password: values.password
+      })
+      .then(response => {
+        setLoading(false);
+        navigate("account");
+      })
+      .catch(err => {
+        if (err.response.status === 400) {
+          setLoading(false);
+          setBadCreds(true);
+        } else {
+          console.error(err);
+        }
+      });
   };
+
   return (
     <div style={{ backgroundImage: `url(${resort})` }}>
       <Row
@@ -29,11 +55,23 @@ const Login = () => {
         style={{ minHeight: "100vh" }}
       >
         <Card>
-          <Row type="flex" justify="space-around" align="middle">
+          <Row justify="space-around" align="middle">
             <Col xs={24} lg={11}>
               <Row type="flex" justify="center" align="middle">
                 <Title>Welcome to [INSERT GENERIC NAME HERE]</Title>
               </Row>
+              {badCreds ? (
+                <Row>
+                  <Col flex={1}>
+                    <Alert
+                      message="Let's try that again"
+                      description="Either the username or password is incorrect. Please try again."
+                      type="error"
+                      showIcon
+                    />
+                  </Col>
+                </Row>
+              ) : null}
             </Col>
             <Col xs={0} lg={2}>
               <Row type="flex" justify="space-around" align="middle">
@@ -46,6 +84,7 @@ const Login = () => {
                   initialValues={{ remember: true }}
                   onFinish={onFinish}
                   style={{ width: "400px" }}
+                  l
                 >
                   <Form.Item
                     name="username"
@@ -70,16 +109,19 @@ const Login = () => {
                       placeholder="Password"
                     />
                   </Form.Item>
-                  <Form.Item>
-                    <Form.Item name="remember" valuePropName="checked" noStyle>
-                      <Checkbox>Remember me</Checkbox>
-                    </Form.Item>
-
-                    <a style={{ float: "right" }}>Forgot password</a>
+                  <Form.Item name="remember" valuePropName="checked" noStyle>
+                    <Checkbox style={{ marginBottom: "18px" }}>
+                      Remember me
+                    </Checkbox>
                   </Form.Item>
 
                   <Form.Item style={{ margin: 0 }}>
-                    <Button type="primary" htmlType="submit" block>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      block
+                      loading={loading}
+                    >
                       Log in
                     </Button>
                     {/* Or <a href="">register now!</a> */}
