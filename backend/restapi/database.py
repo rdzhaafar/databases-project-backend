@@ -1,25 +1,37 @@
-from backend.restapi import restapi
-import psycopg2
-from os import path
 import os
+from os import path
 
+import psycopg2
+
+from backend.restapi import app
+
+"""
+This file contains all the miscellaneous functions/objects
+for managing and interacting with the database.
+"""
 
 class Cursor:
     """
-    Cursor convenience class. Supports "with" context.
+    Database cursor context manager. Handles repetitive operations,
+    such as setting up the connection, committing changes and closing
+    the connection when finished.
     """
 
     def __init__(self, commit=True):
         """
-        :param: commit indicates whether the changes need to be committed
-        after the query is executed.
+        Sets up the connection to the database.
+
+        Args:
+            commit (bool): commit changes done, while using the Cursor object.
         """
         self.commit = commit
-        self.url = restapi.config["DATABASE_URL"]
+        self.url = app.config["DATABASE_URL"]
 
     def __enter__(self):
         """
-        Called before the beginning of "with" block.
+        Returns:
+            psycopg.connection.cursor: a database cursor with the necessary
+            setup done.
         """
         try:
             # TODO! -> add sslmode='require' param
@@ -32,12 +44,17 @@ class Cursor:
 
     def __exit__(self, err_type, value, traceback):
         """
-        Called after the "with" block.
+        Cleans up after using the Cursor object.
+        Args:
+            err_type (str): type of error raised while using the cursor.
+            value (Error): error message.
+            traceback (str): traceback of the error.
         """
         if self.commit:
             try:
                 self.conn.commit()
             except:
+                # You didn't think I would actually hanlde this properly, did you? ;)
                 pass
 
         self.cur.close()
@@ -45,6 +62,10 @@ class Cursor:
 
 
 def initialize_database():
+    """
+    Initializes all database tables on backend startup.
+    Table definitions are stored under backend/restapi/sql/create_tables.sql
+    """
     cwd = os.getcwd()
     fpath = path.join(cwd, "backend", "restapi", "sql", "create_tables.sql")
     with open(fpath, 'r') as tables_file:
