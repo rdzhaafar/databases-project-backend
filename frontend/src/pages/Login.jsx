@@ -37,7 +37,7 @@ const Login = () => {
         navigate("account");
       })
       .catch(err => {
-        if (err.response.status === 400) {
+        if (err.reponse && err.response.status === 400) {
           setLoading(false);
           setBadCreds(true);
         } else {
@@ -84,7 +84,6 @@ const Login = () => {
                   initialValues={{ remember: true }}
                   onFinish={onFinish}
                   style={{ width: "400px" }}
-                  l
                 >
                   <Form.Item
                     name="username"
