@@ -37,7 +37,7 @@ const Login = () => {
         navigate("account");
       })
       .catch(err => {
-        if (err.reponse && err.response.status === 400) {
+        if (err.response && err.response.status === 400) {
           setLoading(false);
           setBadCreds(true);
         } else {
