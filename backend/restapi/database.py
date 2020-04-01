@@ -152,8 +152,8 @@ class Cursor:
             # TODO! -> add sslmode='require' param
             self.conn = psycopg2.connect(self.url)
             self.cur = self.conn.cursor()
-        except:
-            return
+        except Exception as e:
+            print(e)
         finally:
             return self.cur
 

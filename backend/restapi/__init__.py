@@ -12,10 +12,12 @@ app.config.from_object(Config)
 from restapi.database import initialize_database
 
 #loop that retries establishing a connection to the database until succeeds
-while True:
+DB_ESTABLISHED = False
+while not DB_ESTABLISHED:
     try:
         initialize_database()
-        break
+        DB_ESTABLISHED = True
+        print("ESTABLISHED CONNECTION TO DB")
     except:
         continue
 
