@@ -30,7 +30,7 @@ employee/login
 account/login
 They differ from the rest in that they require a POST request containing both the username
 and password (the names of the keys should be the same as respective column names in the table).
-In case of success, they return an employee/account JSON, otherwise they return a 404 error.
+In case of success, they return an employee/account JSON, otherwise they return a 400 error.
 """
 
 
