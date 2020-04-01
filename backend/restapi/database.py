@@ -1,7 +1,9 @@
-from backend.restapi import restapi
-import psycopg2
-from os import path
 import os
+from os import path
+
+import psycopg2
+
+from backend.restapi import app
 
 
 class Cursor:
@@ -15,7 +17,7 @@ class Cursor:
         after the query is executed.
         """
         self.commit = commit
-        self.url = restapi.config["DATABASE_URL"]
+        self.url = app.config["DATABASE_URL"]
 
     def __enter__(self):
         """
