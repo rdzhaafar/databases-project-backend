@@ -10,6 +10,7 @@ This file contains all the miscellaneous functions/objects
 for managing and interacting with the database.
 """
 
+
 class Cursor:
     """
     Database cursor context manager. Handles repetitive operations,
