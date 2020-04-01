@@ -68,7 +68,7 @@ def initialize_database():
     Table definitions are stored under backend/restapi/sql/create_tables.sql
     """
     cwd = os.getcwd()
-    fpath = path.join(cwd, "backend", "restapi", "sql", "create_tables.sql")
+    fpath = path.join(cwd, "restapi", "sql", "create_tables.sql")
     with open(fpath, 'r') as tables_file:
         tables_sql = tables_file.read()
     with Cursor(commit=True) as cursor:
