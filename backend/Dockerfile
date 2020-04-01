@@ -4,12 +4,7 @@ WORKDIR /database-backend
 
 COPY . .
 
-ADD run.py /
-ADD requirements.txt /
-
-RUN pip3 install -r requirements.txt
-
-ADD restapi /
+RUN pip install -r requirements.txt
 
 EXPOSE 5000
 

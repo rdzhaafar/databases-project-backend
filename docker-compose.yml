@@ -16,8 +16,10 @@ services:
       - "5000:5000"
     volumes:
       - ./backend:/database-backend
+    depends_on:
+      - db-postgres
     environment:
-      DATABASE_URL: db-postgres
+      DATABASE_URL: postgres://postgres:postgres@db-postgres:5432/postgres
 
   db-postgres:
     image: postgres

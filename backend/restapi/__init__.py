@@ -1,7 +1,9 @@
 from flask import Flask
 from flask_cors import CORS
 
-from backend.restapi.config import Config
+import os
+
+from restapi.config import Config
 
 # configure Flask
 app = Flask(__name__)
@@ -9,7 +11,15 @@ CORS(app)
 app.config.from_object(Config)
 
 # This needs to be here to avoid circular imports
-from backend.restapi.database import initialize_database
+from restapi.database import initialize_database
 
-initialize_database()
-from backend.restapi import routes
+#loop that retries establishing a connection to the database until succeeds
+while True:
+    try:
+        initialize_database()
+        break
+    except:
+        continue
+
+
+from restapi import routes
