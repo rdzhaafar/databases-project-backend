@@ -153,7 +153,7 @@ class Cursor:
             self.conn = psycopg2.connect(self.url)
             self.cur = self.conn.cursor()
         except Exception as e:
-            print(e)
+            pass
         finally:
             return self.cur
 
