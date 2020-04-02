@@ -21,20 +21,30 @@ import resort from "../assets/resort.jpg";
 const { backendAddress } = config;
 const { Title } = Typography;
 
-const Login = () => {
+const Login = props => {
   const [loading, setLoading] = useState(false);
   const [badCreds, setBadCreds] = useState(false);
 
+  const type = props.type;
+
   const onFinish = values => {
     setLoading(true);
+
+    let loginCreds = {};
+    if (type === "employee") {
+      loginCreds.employee_username = values.username;
+    } else {
+      loginCreds.username = values.username;
+    }
+    loginCreds[type + "_password"] = values.password;
+
+    console.log(loginCreds);
+
     axios
-      .post(backendAddress + "account/login", {
-        username: values.username,
-        account_password: values.password
-      })
+      .post(backendAddress + type + "/login", loginCreds)
       .then(response => {
         setLoading(false);
-        navigate("account");
+        navigate("listings");
       })
       .catch(err => {
         if (err.response && err.response.status === 400) {
@@ -58,7 +68,11 @@ const Login = () => {
           <Row justify="space-around" align="middle">
             <Col xs={24} lg={11}>
               <Row type="flex" justify="center" align="middle">
-                <Title>Welcome to [INSERT GENERIC NAME HERE]</Title>
+                {type === "account" ? (
+                  <Title>Welcome to [INSERT GENERIC NAME HERE]</Title>
+                ) : (
+                  <Title>Employee Sign In</Title>
+                )}
               </Row>
               {badCreds ? (
                 <Row>

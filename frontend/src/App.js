@@ -8,7 +8,8 @@ import { Home, Login } from "./pages";
 const App = () => (
   <Router>
     <Home path="/" />
-    <Login path="login" />
+    <Login path="account/login" type="account" />
+    <Login path="employee/login" type="employee" />
   </Router>
 );
 
