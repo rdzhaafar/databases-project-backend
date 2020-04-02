@@ -414,7 +414,7 @@ def rentalproperty_get():
         req_json = request.json
         with Cursor(commit=False) as cur:
             if request.method == "GET":
-                cur.execute("SELECT * FROM rentalproperty LEFT JOIN account ON (rentalproperty.owner_id=account.account_id)")
+                cur.execute("SELECT * FROM rentalproperty NATURAL JOIN account;")
             else:
                 if "city" in req_json:
                     cur.execute("SELECT * FROM rentalproperty WHERE city=%s", (req_json["city"],))

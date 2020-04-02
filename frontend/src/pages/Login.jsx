@@ -47,7 +47,7 @@ const Login = props => {
           localStorage.setItem("accountId", data.account_id);
           localStorage.setItem("name", data.first_name + " " + data.last_name);
         } else if (type === "employee") {
-          localStorage.setItem("accountId", data.account_id);
+          localStorage.setItem("accountId", data.employee_id);
           localStorage.setItem("name", data.employee_username);
         }
         setLoading(false);
