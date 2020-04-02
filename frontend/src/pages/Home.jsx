@@ -1,16 +1,5 @@
-import React from "react";
-import {
-  Row,
-  Col,
-  Typography,
-  Form,
-  Input,
-  Button,
-  Checkbox,
-  Card,
-  Divider,
-  Alert
-} from "antd";
+import React, { useEffect } from "react";
+import { Row, Col, Typography, Button, Card, Divider } from "antd";
 import { Link } from "@reach/router";
 
 import resort from "../assets/resort.jpg";
@@ -18,6 +7,7 @@ import resort from "../assets/resort.jpg";
 const { Title } = Typography;
 
 const Home = () => {
+  useEffect(() => localStorage.clear(), []);
   return (
     <div style={{ backgroundImage: `url(${resort})` }}>
       <Row

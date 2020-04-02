@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Row,
   Col,
@@ -27,6 +27,8 @@ const Login = props => {
 
   const type = props.type;
 
+  useEffect(() => localStorage.clear(), []);
+
   const onFinish = values => {
     setLoading(true);
 
@@ -38,11 +40,16 @@ const Login = props => {
     }
     loginCreds[type + "_password"] = values.password;
 
-    console.log(loginCreds);
-
     axios
       .post(backendAddress + type + "/login", loginCreds)
-      .then(response => {
+      .then(({ data }) => {
+        if (type === "account") {
+          localStorage.setItem("accountId", data.account_id);
+          localStorage.setItem("name", data.first_name + " " + data.last_name);
+        } else if (type === "employee") {
+          localStorage.setItem("accountId", data.account_id);
+          localStorage.setItem("name", data.employee_username);
+        }
         setLoading(false);
         navigate("listings");
       })
