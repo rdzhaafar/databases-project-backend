@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS Employee (
   employee_username VARCHAR UNIQUE NOT NULL,
   employee_password VARCHAR NOT NULL,
   branch VARCHAR NOT NULL,
-  manager INTEGER NOT NULL,
+  manager INTEGER,
   salary INTEGER NOT NULL,
   position varchar NOT NULL,
   FOREIGN KEY (manager) REFERENCES Employee (employee_id) ON UPDATE CASCADE,

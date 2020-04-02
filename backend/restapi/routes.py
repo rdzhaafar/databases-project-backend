@@ -150,7 +150,7 @@ def employee_new():
                            ))
         return 'OK', 200
     except Exception as e:
-        app.logger.error(e.__traceback__)
+        app.logger.error(e)
         abort(400)
 
 
