@@ -142,7 +142,7 @@ def employee_new():
                            " branch, manager, salary, position) VALUES (%s, %s, %s, %s, %s, %s)",
                            (
                                request_data["employee_username"],
-                               request_data["empoyee_password"],
+                               request_data["employee_password"],
                                request_data["branch"],
                                request_data["manager"],
                                request_data["salary"],
@@ -150,7 +150,7 @@ def employee_new():
                            ))
         return 'OK', 200
     except Exception as e:
-        app.logger.error(e)
+        app.logger.error(e.__traceback__)
         abort(400)
 
 
