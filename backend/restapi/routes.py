@@ -165,7 +165,7 @@ def employee_login():
                                request_data["employee_username"],
                                request_data["employee_password"]
                            ))
-            res = employee_convert_one(tups=cursor.fetchone())
+            res = employee_convert_one(tup=cursor.fetchone())
         return jsonify(res)
     except Exception as e:
         app.logger.error(e)
