@@ -414,7 +414,7 @@ def rentalproperty_get():
         req_json = request.json
         with Cursor(commit=False) as cur:
             if request.method == "GET":
-                cur.execute("SELECT * FROM rentalproperty NATURAL JOIN account;")
+                cur.execute("SELECT * FROM rentalproperty")
             else:
                 if "city" in req_json:
                     cur.execute("SELECT * FROM rentalproperty WHERE city=%s", (req_json["city"],))
@@ -444,6 +444,46 @@ def rentalproperty_get():
                     cur.execute("SELECT * FROM rentalproperty WHERE bedroom=%s", (req_json["bedroom"],))
                 elif "bed" in req_json:
                     cur.execute("SELECT * FROM rentalproperty WHERE bed=%s", (req_json["bed"],))
+            res = rentalproperty_convert_many(tups=cur.fetchall())
+        return jsonify(res)
+    except Exception as e:
+        app.logger.error(e)
+        abort(400)
+
+
+rentalproperty_attrs_joined_account = [
+    "property_id",
+    "city",
+    "street",
+    "street_no",
+    "unit",
+    "zip",
+    "state_province",
+    "country",
+    "owner_id",
+    "property_type",
+    "room_type",
+    "pricing_id",
+    "bathroom",
+    "bedroom",
+    "bed",
+    "account_id",
+    "first_name",
+    "last_name",
+    "email",
+    "phone",
+    "username",
+    "account_password"
+]
+
+
+@app.route("/rentalproperty/listings", methods=["GET"])
+def get_listings():
+    rentalproperty_convert_many = functools.partial(tuples_to_dicts, attrs=rentalproperty_attrs_joined_account)
+    try:
+        req_json = request.json
+        with Cursor(commit=False) as cur:
+            cur.execute("SELECT * FROM rentalproperty NATURAL JOIN account")
             res = rentalproperty_convert_many(tups=cur.fetchall())
         return jsonify(res)
     except Exception as e:

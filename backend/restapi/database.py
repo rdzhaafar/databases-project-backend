@@ -13,13 +13,15 @@ for managing and interacting with the database.
 CREATE_TABLES_SQL = """
 CREATE TABLE IF NOT EXISTS Branch (
   country VARCHAR PRIMARY KEY,
-  branch_manager INTEGER NOT NULL
+  branch_manager INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS Employee (
   employee_id SERIAL PRIMARY KEY,
   employee_username VARCHAR UNIQUE NOT NULL,
   employee_password VARCHAR NOT NULL,
+  first_name VARCHAR NOT NULL,
+  last_name VARCHAR NOT NULL,
   branch VARCHAR NOT NULL,
   manager INTEGER,
   salary INTEGER NOT NULL,
@@ -33,7 +35,7 @@ CREATE TABLE IF NOT EXISTS Account (
   first_name VARCHAR NOT NULL,
   last_name VARCHAR NOT NULL,
   email VARCHAR UNIQUE NOT NULL,
-  phone VARCHAR,
+  phone VARCHAR NOT NULL,
   username VARCHAR UNIQUE NOT NULL,
   account_password VARCHAR NOT NULL
 );
