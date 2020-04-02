@@ -6,11 +6,6 @@ from restapi import app
 from restapi.database import Cursor
 
 """
-<note>
-NIGHTMARE NIGHTMARE NIGHTMARE NIGHTMARE!
-A LOT OF SPAGETTI CODE BELOW. YOU'VE BEEN WARNED.
-</note>
-
 This file defines all the REST endpoints for performing CRUD operations on 
 the database.
 
@@ -117,6 +112,19 @@ def branch_get():
         abort(400)
 
 
+@app.route("/branch/manager", methods=["POST"])
+def update_manager():
+    try:
+        manager = request.json["branch_manager"]
+        country = request.json["country"]
+        with Cursor(commit=True) as cur:
+            cur.execute("UPDATE branch SET branch_manager=%s WHERE country=%s", (manager, country))
+        return 'OK', 200
+    except Exception as e:
+        app.logger.error(e)
+        abort(400)
+
+
 # Employee endpoints:
 # /employee/new
 # /employee/login
@@ -140,12 +148,12 @@ def employee_new():
     try:
         request_data = request.json
         with Cursor(commit=True) as cursor:
-            cursor.execute("INSERT INTO employee (employee_username, employee_password,"
-                           " branch, manager, salary, position) VALUES (%s, %s, %s, %s, %s, %s)",
+            cursor.execute("INSERT INTO employee (employee_username, employee_password, first_name, last_name,"
+                           " branch, manager, salary, position) VALUES (%s, %s,%s, %s, %s, %s, %s, %s)",
                            (
                                request_data["employee_username"],
                                request_data["employee_password"],
-                               request_data["fist_name"],
+                               request_data["first_name"],
                                request_data["last_name"],
                                request_data["branch"],
                                request_data["manager"],
@@ -394,7 +402,7 @@ def rentalproperty_new():
                                request_data["street_no"],
                                request_data["unit"],
                                request_data["zip"],
-                               request_data["state_provice"],
+                               request_data["state_province"],
                                request_data["country"],
                                request_data["owner_id"],
                                request_data["property_type"],

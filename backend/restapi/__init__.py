@@ -4,6 +4,7 @@ from flask_cors import CORS
 import os
 
 from restapi.config import Config
+from restapi.data_generator import generate_random_data
 
 # configure Flask
 app = Flask(__name__)
@@ -25,3 +26,6 @@ while not DB_ESTABLISHED:
 
 
 from restapi import routes
+
+generate_random_data()
+print('Done generating random data.')
