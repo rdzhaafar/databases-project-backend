@@ -45,11 +45,10 @@ const Login = props => {
       .then(({ data }) => {
         if (type === "account") {
           localStorage.setItem("accountId", data.account_id);
-          localStorage.setItem("name", data.first_name + " " + data.last_name);
         } else if (type === "employee") {
           localStorage.setItem("accountId", data.employee_id);
-          localStorage.setItem("name", data.employee_username);
         }
+        localStorage.setItem("name", data.first_name + " " + data.last_name);
         setLoading(false);
         navigate("listings");
       })

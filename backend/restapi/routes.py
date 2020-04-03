@@ -485,7 +485,15 @@ rentalproperty_attrs_joined_account = [
     "email",
     "phone",
     "username",
-    "account_password"
+    "account_password",
+    "pricing_id",
+    "class_name",
+    "host",
+    "price",
+    "home_type",
+    "rules",
+    "amenities",
+    "accomodates"
 ]
 
 
@@ -495,7 +503,9 @@ def get_listings():
     try:
         req_json = request.json
         with Cursor(commit=False) as cur:
-            cur.execute("SELECT * FROM rentalproperty NATURAL JOIN account")
+            cur.execute("""SELECT * FROM rentalproperty 
+            LEFT JOIN account ON (rentalproperty.owner_id=account.account_id)
+            LEFT JOIN pricing ON (rentalproperty.owner_id=pricing.pricing_id)""")
             res = rentalproperty_convert_many(tups=cur.fetchall())
         return jsonify(res)
     except Exception as e:
