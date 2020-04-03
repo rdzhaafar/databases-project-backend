@@ -38,3 +38,12 @@ services:
       - db-postgres
     ports:
       - "3333:8080"
+
+  random-generator:
+    container_name: "random-generator"
+    build: ./random_tuple_generator
+    volumes:
+      - ./backend:/random_generator
+    depends_on:
+      - db-postgres
+      - backend
