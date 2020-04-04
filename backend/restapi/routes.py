@@ -497,15 +497,21 @@ rentalproperty_attrs_joined_account = [
 ]
 
 
-@app.route("/rentalproperty/listings", methods=["GET"])
+@app.route("/rentalproperty/listings", methods=["GET", "POST"])
 def get_listings():
     rentalproperty_convert_many = functools.partial(tuples_to_dicts, attrs=rentalproperty_attrs_joined_account)
     try:
         req_json = request.json
         with Cursor(commit=False) as cur:
-            cur.execute("""SELECT * FROM rentalproperty 
-            LEFT JOIN account ON (rentalproperty.owner_id=account.account_id)
-            LEFT JOIN pricing ON (rentalproperty.owner_id=pricing.pricing_id)""")
+            if request.method == "GET":
+                cur.execute("""SELECT * FROM rentalproperty 
+                LEFT JOIN account ON (rentalproperty.owner_id=account.account_id)
+                LEFT JOIN pricing ON (rentalproperty.owner_id=pricing.pricing_id)""")
+            else:
+                cur.execute("""SELECT * FROM rentalproperty 
+                LEFT JOIN account ON (rentalproperty.owner_id=account.account_id)
+                LEFT JOIN pricing ON (rentalproperty.owner_id=pricing.pricing_id)
+                WHERE owner_id=%s""", (req_json["owner_id"]))
             res = rentalproperty_convert_many(tups=cur.fetchall())
         return jsonify(res)
     except Exception as e:

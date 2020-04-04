@@ -50,7 +50,11 @@ const Login = props => {
         }
         localStorage.setItem("name", data.first_name + " " + data.last_name);
         setLoading(false);
-        navigate("listings");
+        if (type === "account") {
+          navigate("available");
+        } else if (type === "employee") {
+          navigate("listings");
+        }
       })
       .catch(err => {
         if (err.response && err.response.status === 400) {

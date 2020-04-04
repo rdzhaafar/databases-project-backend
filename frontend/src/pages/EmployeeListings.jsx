@@ -4,6 +4,7 @@ import AppLayout from "../components/AppLayout";
 import axios from "axios";
 
 import config from "../config.js";
+import Title from "antd/lib/typography/Title";
 const { backendAddress } = config;
 
 const EmployeeListing = () => {
@@ -15,34 +16,8 @@ const EmployeeListing = () => {
       const { data } = await axios.get(
         backendAddress + "rentalproperty/listings"
       );
-      console.log(data);
 
-      const parsedData = data.map(property => {
-        let aproperty = {
-          account_id: 1,
-          account_password: "password",
-          bathroom: 1,
-          bed: { double: 0, king: 0, queen: 0, twin: 1 },
-          bedroom: 1,
-          city: "Milford",
-          country: "Australia",
-          email: "Brandon.Gomez0@uottawa.ca",
-          first_name: "Brandon",
-          last_name: "Gomez",
-          owner_id: 1,
-          phone: "555-555-5555",
-          pricing_id: 1,
-          property_id: 1,
-          property_type: "Residential",
-          room_type: "Shared Room",
-          state_province: "Ontario",
-          street: "Maple Lane",
-          street_no: 2879,
-          unit: 220,
-          username: "BrandonGomez0",
-          zip: "55076"
-        };
-
+      const parsedData = data.map((property) => {
         return {
           key: property.property_id,
           id: property.property_id,
@@ -62,10 +37,9 @@ const EmployeeListing = () => {
           homeType: property.home_type,
           propertyType: property.property_type,
           roomType: property.room_type,
-          rules: property.rules
+          rules: property.rules,
         };
       });
-      console.log(parsedData);
 
       setLoad(true);
       setData(parsedData);
@@ -78,49 +52,49 @@ const EmployeeListing = () => {
     {
       title: "ID",
       dataIndex: "id",
-      key: "id"
+      key: "id",
     },
     {
       title: "Owner",
       dataIndex: "owner",
-      key: "owner"
+      key: "owner",
     },
     {
       title: "Price",
       dataIndex: "price",
       key: "price",
-      render: text => <> {"$" + text}</>
+      render: (text) => <> {"$" + text}</>,
     },
     {
       title: "Address",
       dataIndex: "address",
-      key: "address"
+      key: "address",
     },
     {
       title: "Unit",
       dataIndex: "unit",
-      key: "unit"
+      key: "unit",
     },
     {
       title: "City",
       dataIndex: "city",
-      key: "city"
+      key: "city",
     },
     {
       title: "Province/State",
       dataIndex: "province",
-      key: "province"
+      key: "province",
     },
     {
       title: "Country",
       dataIndex: "country",
-      key: "country"
+      key: "country",
     },
     {
       title: "ZIP",
       dataIndex: "zip",
-      key: "zip"
-    }
+      key: "zip",
+    },
   ];
 
   if (!load) {
@@ -133,15 +107,14 @@ const EmployeeListing = () => {
 
   return (
     <AppLayout>
+      <Title>All Listings</Title>
       <Table
         bordered
         columns={columns}
         dataSource={data}
         expandable={{
-          expandedRowRender: record => {
-            const beds = Object.entries(record.beds).map(bed => {
-              console.log(bed);
-
+          expandedRowRender: (record) => {
+            const beds = Object.entries(record.beds).map((bed) => {
               return (
                 <>
                   {bed[0].charAt(0).toUpperCase() +
@@ -183,8 +156,9 @@ const EmployeeListing = () => {
                 </Descriptions>
               </div>
             );
-          }
+          },
         }}
+        pagination={{ pageSize: 12 }}
       />
     </AppLayout>
   );

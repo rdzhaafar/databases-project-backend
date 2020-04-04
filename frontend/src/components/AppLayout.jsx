@@ -3,13 +3,13 @@ import { Layout, Button } from "antd";
 import {
   UserOutlined,
   LogoutOutlined,
-  CompassTwoTone
+  CompassTwoTone,
 } from "@ant-design/icons";
 import { navigate } from "@reach/router";
 
 const { Header, Content } = Layout;
 
-const AppLayout = props => {
+const AppLayout = (props) => {
   const handleLogout = () => {
     navigate("/");
   };
@@ -18,7 +18,7 @@ const AppLayout = props => {
   if (name == null) navigate("/");
 
   return (
-    <Layout>
+    <Layout style={{ height: window.innerHeight }}>
       <Header style={{ paddingLeft: "12px" }}>
         <CompassTwoTone
           spin
@@ -26,12 +26,14 @@ const AppLayout = props => {
           onClick={() => navigate("/")}
         />
         <div className="logo" style={{ float: "right" }}>
-          <Button>
-            <UserOutlined /> {name}
-          </Button>
-          <Button onClick={handleLogout}>
-            <LogoutOutlined /> Logout
-          </Button>
+          <Button.Group>
+            <Button>
+              <UserOutlined /> {name}
+            </Button>
+            <Button onClick={handleLogout}>
+              <LogoutOutlined /> Logout
+            </Button>
+          </Button.Group>
         </div>
       </Header>
       <Layout>
@@ -39,7 +41,7 @@ const AppLayout = props => {
           style={{
             padding: "20px 15px",
             margin: 0,
-            minHeight: 280
+            minHeight: 280,
           }}
         >
           {props.children}
