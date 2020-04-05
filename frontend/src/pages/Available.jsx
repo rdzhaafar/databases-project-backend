@@ -55,8 +55,8 @@ const Available = () => {
         };
       });
 
-      setLoad(true);
       setData(parsedData);
+      setLoad(true);
     };
 
     getListings();
