@@ -511,7 +511,7 @@ def get_listings():
                 cur.execute("""SELECT * FROM rentalproperty 
                 LEFT JOIN account ON (rentalproperty.owner_id=account.account_id)
                 LEFT JOIN pricing ON (rentalproperty.owner_id=pricing.pricing_id)
-                WHERE owner_id=%s""", (req_json["owner_id"]))
+                WHERE owner_id=%s""", (req_json["owner_id"],))
             res = rentalproperty_convert_many(tups=cur.fetchall())
         return jsonify(res)
     except Exception as e:

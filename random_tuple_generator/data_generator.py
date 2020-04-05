@@ -2,7 +2,16 @@ import random
 import json
 import datetime
 import requests
-import time
+import sys
+
+"""
+This script generates some random data and populates the database
+upon starting the application, then exits.
+
+
+My software engineering professor would refer to the following as
+"Spaghetti code". He's Right.
+"""
 
 
 def new_branch():
@@ -395,29 +404,6 @@ def new_review(n):
 
 
 def generate_random_data():
-    """
-    Good luck.
-    """
-    new_branch()
-    new_employee(managers=True)
-    update_managers()
-    new_employee()
-    new_account(6)
-    accounts = get_accounts()
-    print(accounts)
-    hosts = select_hosts(accounts)
-    print(hosts)
-    new_pricing(hosts)
-    pricing = get_pricing()
-    new_rentalproperty(pricing)
-    rentalproperty = get_rentalproperty()
-    print(rentalproperty)
-    new_rentalagreement()
-    new_payment()
-    new_review(20)
-
-
-if __name__ == "__main__":
     session = requests.Session()
     session.trust_env = False
     # retry connecting to the backend container until success, then break
@@ -428,7 +414,22 @@ if __name__ == "__main__":
                 break
         except:
             continue
+    new_branch()
+    new_employee(managers=True)
+    update_managers()
+    new_employee()
+    new_account(6)
+    accounts = get_accounts()
+    hosts = select_hosts(accounts)
+    new_pricing(hosts)
+    pricing = get_pricing()
+    new_rentalproperty(pricing)
+    rentalproperty = get_rentalproperty()
+    new_rentalagreement()
+    new_payment()
+    new_review(20)
+    print("done!")
+
+if __name__=="__main__":
     generate_random_data()
-    print('Done generating data!')
-    while True:  # don't exit! otherwise docker is not gonna be too happy
-        time.sleep(1000)
+    sys.exit(0)
