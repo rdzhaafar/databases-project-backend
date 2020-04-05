@@ -44,8 +44,8 @@ const AccountListings = () => {
         };
       });
 
-      setLoad(true);
       setData(parsedData);
+      setLoad(true);
     };
 
     getListings();
@@ -115,11 +115,11 @@ const AccountListings = () => {
         </Col>
         <Col flex={1}>
           <Button.Group style={{ float: "right" }}>
-            <Button onClick={() => navigate("/account/available")}>
+            <Button onClick={() => navigate("available")}>
               <LeftCircleTwoTone />
               Back to Available Listing
             </Button>
-            <Button type="primary">
+            <Button type="primary" onClick={() => navigate("listings/new")}>
               <PlusCircleTwoTone />
               Add Listing
             </Button>

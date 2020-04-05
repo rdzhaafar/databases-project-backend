@@ -41,8 +41,8 @@ const EmployeeListing = () => {
         };
       });
 
-      setLoad(true);
       setData(parsedData);
+      setLoad(true);
     };
 
     getListings();
