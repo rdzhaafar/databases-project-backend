@@ -216,6 +216,7 @@ def employee_get():
 # /account/get
 
 account_attrs = [
+    "country",
     "account_id",
     "first_name",
     "last_name",
@@ -237,8 +238,9 @@ def account_new():
         request_data = request.json
         with Cursor(commit=True) as cursor:
             cursor.execute("INSERT INTO Account "
-                           "(first_name, last_name, email, phone, username, account_password) "
-                           "VALUES (%s, %s, %s, %s, %s, %s)", (
+                           "(country, first_name, last_name, email, phone, username, account_password) "
+                           "VALUES (%s, %s, %s, %s, %s, %s, %s)", (
+                               request_data['country'],
                                request_data['first_name'],
                                request_data['last_name'],
                                request_data['email'],
@@ -278,7 +280,9 @@ def account_get():
             if request.method == "GET":
                 cursor.execute("SELECT * FROM account")
             else:
-                if "account_id" in req_json:
+                if "country" in req_json:
+                    cursor.execute ("SELECT * FROM account WHERE country=%s", (req_json["country"],))
+                elif "account_id" in req_json:
                     cursor.execute("SELECT * FROM account WHERE account_id=%s", (req_json["account_id"],))
                 elif "first_name" in req_json:
                     cursor.execute("SELECT * FROM account WHERE first_name=%s", (req_json["first_name"],))
@@ -479,6 +483,7 @@ rentalproperty_attrs_joined_account = [
     "bathroom",
     "bedroom",
     "bed",
+    "country",
     "account_id",
     "first_name",
     "last_name",

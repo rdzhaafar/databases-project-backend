@@ -31,13 +31,15 @@ CREATE TABLE IF NOT EXISTS Employee (
 );
 
 CREATE TABLE IF NOT EXISTS Account (
+  country VARCHAR NOT NULL,
   account_id SERIAL PRIMARY KEY,
   first_name VARCHAR NOT NULL,
   last_name VARCHAR NOT NULL,
   email VARCHAR UNIQUE NOT NULL,
   phone VARCHAR NOT NULL,
   username VARCHAR UNIQUE NOT NULL,
-  account_password VARCHAR NOT NULL
+  account_password VARCHAR NOT NULL,
+  FOREIGN KEY (country) REFERENCES Branch (country) ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Pricing (

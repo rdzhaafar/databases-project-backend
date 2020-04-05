@@ -106,10 +106,16 @@ def new_account(n):
     firstNameList = firstNameString.split(",")
     lastNameString = "Smith,Johnson,Williams,Jones,Brown,Davis,Miller,Wilson,Moore,Taylor,Anderson,Thomas,Jackson,White,Harris,Martin,Thompson,Garcia,Martinez,Robinson,Clark,Rodriguez,Lewis,Lee,Walker,Hall,Allen,Young,Hernandez,King,Wright,Lopez,Hill,Scott,Green,Adams,Baker,Gonzalez,Nelson,Carter,Mitchell,Perez,Roberts,Turner,Philips,Campbell,Parker,Evans,Edwards,Collins,Stewart,Sanchez,Morris,Rogers,Reed,Cook,Morgan,Bell,Murphy,Bailey,Rivera,Cooper,Richardson,Cox,Howard,Ward,Torres,Peterson,Gray,Ramirez,James,Watson,Brooks,Kelly,Sanders,Price,Bennett,Wood,Barnes,Ross,Henderson,Coleman,Jenkins,Perry,Powell,Long,Patterson,Hughes,Flores,Washington,Butler,Simmons,Foster,Bryant,Alexander,Russell,Griffin,Diaz,Hayes,Myers,Ford,Hamilton,Graham,Sullivan,Wallace,Woods,Cole,West,Jordan,Owens,Reynolds,Fisher,Ellis,Harrison,Gibson,Mcdonald,Cruz,Marshall,Ortiz,Gomez,Murray,Freeman,Wells,Webb,Simpson,Stevens,Tucker,Porter,Hunter,Hicks,Crawford,Henry,Boyd,Mason,Morales,Kennedy,Warren,Dixon,Ramos,Reyes,Burns,Gordon,Shaw,Holmes,Rice,Robertson,Hunt,Black,Daniels"
     lastNameList = lastNameString.split(",")
+    countryList = ["Switzerland", "Canada", "Japan", "Germany", "Australia", "United Kingdom", "United States",
+                   "Sweden", "Netherlands", "Norway", "New Zealand", "France", "Denmark", "Finland", "China",
+                   "Singapore", "Austria", "Spain", "South Korea", "Russia", "Portugal", "United Arab Emirates",
+                   "India"]
     for x in range(n):
         tempFirstName = random.choice(firstNameList)
         tempLastName = random.choice(lastNameList)
+        tempCountry = random.choice(countryList)
         tempDict = {
+            "country": tempCountry,
             "first_name": tempFirstName,
             "last_name": tempLastName,
             "email": tempFirstName + "." + tempLastName + str(x) + "@uottawa.ca",
@@ -418,7 +424,7 @@ def generate_random_data():
     new_employee(managers=True)
     update_managers()
     new_employee()
-    new_account(6)
+    new_account(15)
     accounts = get_accounts()
     hosts = select_hosts(accounts)
     new_pricing(hosts)
