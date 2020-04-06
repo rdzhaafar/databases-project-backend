@@ -10,6 +10,7 @@ import {
   Select,
   Divider,
   Descriptions,
+  Modal,
 } from "antd";
 import AppLayout from "../components/AppLayout";
 import axios from "axios";
@@ -28,6 +29,9 @@ const NewListings = () => {
   const [load, setLoad] = useState(false);
   const [pricingSelected, setPricingSelected] = useState(null);
   const [modal, setModal] = useState(false);
+  const [accom, setAccom] = useState(0);
+
+  const [pricingForm] = Form.useForm();
 
   useEffect(() => {
     const getPricings = async () => {
@@ -39,7 +43,7 @@ const NewListings = () => {
     };
 
     getPricings();
-  }, []);
+  }, [modal]);
 
   const generatePricingOptions = () => {
     console.log(data);
@@ -89,6 +93,19 @@ const NewListings = () => {
   const onFinish = (values) => {
     console.log("Success:", values);
   };
+  const onPricingFinish = (values) => {
+    console.log("Success Pricing:", values);
+
+    const pricing = values;
+    pricing.host = localStorage.getItem("accountId");
+
+    const setPricing = async () => {
+      await axios.post(backendAddress + "pricing/new", pricing);
+
+      setModal(false);
+    };
+    setPricing();
+  };
 
   if (!load) {
     return (
@@ -120,6 +137,7 @@ const NewListings = () => {
           initialValues={{ remember: true }}
           labelCol={{ span: 2 }}
           wrapperCol={{ span: 20 }}
+          hideRequiredMark
         >
           <Form.Item label="Class" name="class" rules={[{ required: true }]}>
             <Select
@@ -130,13 +148,9 @@ const NewListings = () => {
                 <>
                   {menu}
                   <Divider style={{ margin: "4px 0" }} />
-                  <Button
-                    type="dashed"
-                    style={{ marginLeft: "5px" }}
-                    onClick={() => setModal(true)}
-                  >
+                  <Button type="dashed" block onClick={() => setModal(true)}>
                     <PlusCircleTwoTone />
-                    Add Listing
+                    Add Class
                   </Button>
                 </>
               )}
@@ -165,6 +179,73 @@ const NewListings = () => {
           </Form.Item>
         </Form>
       </Card>
+      <Modal
+        title="New Class"
+        visible={modal}
+        onCancel={() => setModal(false)}
+        onOk={() => pricingForm.submit()}
+      >
+        <Form
+          form={pricingForm}
+          name="pricing"
+          initialValues={{ remember: true }}
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 16 }}
+          onFinish={onPricingFinish}
+          hideRequiredMark
+        >
+          <Form.Item
+            label="Name"
+            name="class_name"
+            rules={[{ required: true, message: "Please enter a name" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Home Type"
+            name="home_type"
+            rules={[{ required: true, message: "Please enter a home type" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Price"
+            name="price"
+            rules={[{ required: true, message: "Please enter a price" }]}
+          >
+            <Input type="number" prefix="$" />
+          </Form.Item>
+          <Form.Item
+            label="Accomodates"
+            name="accomodates"
+            rules={[
+              { required: true, message: "Please enter number of people" },
+            ]}
+            shouldUpdate
+          >
+            <Input
+              onChange={(e) => setAccom(e.target.value)}
+              defaultValue={accom}
+              type="number"
+              suffix={accom < 2 ? "person" : "people"}
+            />
+          </Form.Item>
+          <Form.Item
+            label="Amenities"
+            name="amenities"
+            rules={[{ required: true, message: "Please enter amenities" }]}
+          >
+            <Input.TextArea />
+          </Form.Item>
+          <Form.Item
+            label="Rules"
+            name="rules"
+            rules={[{ required: true, message: "Please enter rules" }]}
+          >
+            <Input.TextArea />
+          </Form.Item>
+        </Form>
+      </Modal>
     </AppLayout>
   );
 };
