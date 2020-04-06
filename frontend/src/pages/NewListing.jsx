@@ -11,6 +11,7 @@ import {
   Divider,
   Descriptions,
   Modal,
+  InputNumber,
 } from "antd";
 import AppLayout from "../components/AppLayout";
 import axios from "axios";
@@ -29,7 +30,7 @@ const NewListings = () => {
   const [load, setLoad] = useState(false);
   const [pricingSelected, setPricingSelected] = useState(null);
   const [modal, setModal] = useState(false);
-  const [accom, setAccom] = useState(0);
+  const [accom, setAccom] = useState(1);
 
   const [pricingForm] = Form.useForm();
 
@@ -102,6 +103,7 @@ const NewListings = () => {
     const setPricing = async () => {
       await axios.post(backendAddress + "pricing/new", pricing);
 
+      pricingForm.resetFields();
       setModal(false);
     };
     setPricing();
@@ -114,6 +116,8 @@ const NewListings = () => {
       </Spin>
     );
   }
+
+  console.log(pricingForm.getFieldsValue());
 
   return (
     <AppLayout>
@@ -142,6 +146,7 @@ const NewListings = () => {
           <Form.Item label="Class" name="class" rules={[{ required: true }]}>
             <Select
               defaultOpen
+              autoFocus
               placeholder="Select Class to continue"
               onChange={(val) => setPricingSelected(parseInt(val))}
               dropdownRender={(menu) => (
@@ -188,7 +193,6 @@ const NewListings = () => {
         <Form
           form={pricingForm}
           name="pricing"
-          initialValues={{ remember: true }}
           labelCol={{ span: 5 }}
           wrapperCol={{ span: 16 }}
           onFinish={onPricingFinish}
@@ -211,23 +215,39 @@ const NewListings = () => {
           <Form.Item
             label="Price"
             name="price"
-            rules={[{ required: true, message: "Please enter a price" }]}
+            rules={[
+              { required: true, message: "Please enter a price" },
+              {
+                type: "number",
+                min: 0.01,
+                step: 0.01,
+                message: "Must accomodate at least 1",
+              },
+            ]}
           >
-            <Input type="number" prefix="$" />
+            <InputNumber
+              defaultValue={1}
+              formatter={(value) => `$${value}`}
+              min={0.01}
+              step={1}
+            />
           </Form.Item>
           <Form.Item
             label="Accomodates"
             name="accomodates"
             rules={[
               { required: true, message: "Please enter number of people" },
+              { type: "number", min: 1, message: "Must accomodate at least 1" },
             ]}
             shouldUpdate
           >
-            <Input
-              onChange={(e) => setAccom(e.target.value)}
+            <InputNumber
+              onChange={(value) => setAccom(value)}
               defaultValue={accom}
-              type="number"
-              suffix={accom < 2 ? "person" : "people"}
+              min={1}
+              formatter={(value) =>
+                `${value} ${accom < 2 ? "person" : "people"}`
+              }
             />
           </Form.Item>
           <Form.Item
