@@ -10,6 +10,8 @@ import { navigate } from "@reach/router";
 const { backendAddress } = config;
 
 const AccountListings = () => {
+  document.title = "Your Listings";
+
   const [data, setData] = useState(null);
   const [load, setLoad] = useState(false);
 

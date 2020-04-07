@@ -9,7 +9,7 @@ import {
   Checkbox,
   Card,
   Divider,
-  Alert
+  Alert,
 } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { navigate } from "@reach/router";
@@ -21,7 +21,9 @@ import resort from "../assets/resort.jpg";
 const { backendAddress } = config;
 const { Title } = Typography;
 
-const Login = props => {
+const Login = (props) => {
+  document.title = "Login";
+
   const [loading, setLoading] = useState(false);
   const [badCreds, setBadCreds] = useState(false);
 
@@ -29,7 +31,7 @@ const Login = props => {
 
   useEffect(() => localStorage.clear(), []);
 
-  const onFinish = values => {
+  const onFinish = (values) => {
     setLoading(true);
 
     let loginCreds = {};
@@ -56,7 +58,7 @@ const Login = props => {
           navigate("listings");
         }
       })
-      .catch(err => {
+      .catch((err) => {
         if (err.response && err.response.status === 400) {
           setLoading(false);
           setBadCreds(true);
@@ -112,7 +114,10 @@ const Login = props => {
                   <Form.Item
                     name="username"
                     rules={[
-                      { required: true, message: "Please input your Username!" }
+                      {
+                        required: true,
+                        message: "Please input your Username!",
+                      },
                     ]}
                   >
                     <Input
@@ -123,7 +128,10 @@ const Login = props => {
                   <Form.Item
                     name="password"
                     rules={[
-                      { required: true, message: "Please input your Password!" }
+                      {
+                        required: true,
+                        message: "Please input your Password!",
+                      },
                     ]}
                   >
                     <Input

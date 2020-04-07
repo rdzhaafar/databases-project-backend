@@ -99,7 +99,7 @@ def branch_get():
         req_json = request.json
         with Cursor(commit=False) as cur:
             if request.method == "GET":
-                cur.execute("SELECT * FROM branch")
+                cur.execute("SELECT * FROM branch ORDER BY country ASC")
             else:
                 if "country" in req_json:
                     cur.execute("SELECT * FROM branch WHERE country=%s", (req_json["country"],))

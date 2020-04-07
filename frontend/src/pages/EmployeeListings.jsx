@@ -8,6 +8,8 @@ import Title from "antd/lib/typography/Title";
 const { backendAddress } = config;
 
 const EmployeeListing = () => {
+  document.title = "All Listings";
+
   const [data, setData] = useState(null);
   const [load, setLoad] = useState(false);
 

@@ -19,6 +19,8 @@ import { navigate } from "@reach/router";
 const { backendAddress } = config;
 
 const Available = () => {
+  document.title = "Available Listings";
+
   const [data, setData] = useState(null);
   const [load, setLoad] = useState(false);
   const [loadCalender, setLoadCalender] = useState(false);
@@ -85,7 +87,7 @@ const Available = () => {
     setTimeout(() => {
       setLoadCalender(true);
     }, 200);
-  }, [expandedRows]);
+  }, [expandedRows, unavailDates]);
 
   const columns = [
     {
@@ -137,8 +139,6 @@ const Available = () => {
       </Spin>
     );
   }
-
-  let tempDates = unavailDates;
 
   return (
     <AppLayout>
