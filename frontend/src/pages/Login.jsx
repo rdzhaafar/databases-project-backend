@@ -81,7 +81,7 @@ const Login = (props) => {
             <Col xs={24} lg={11}>
               <Row type="flex" justify="center" align="middle">
                 {type === "account" ? (
-                  <Title>Welcome to [INSERT GENERIC NAME HERE]</Title>
+                  <Title>Welcome to Booking Site</Title>
                 ) : (
                   <Title>Employee Sign In</Title>
                 )}
